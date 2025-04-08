@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=42", "wheel", "numpy"]
+requires = ["setuptools>=42", "wheel", "numpy", "cython"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -7,10 +7,15 @@ name = "scikit-monaco"
 version = "0.3.1"
 description = "Python modules for Monte Carlo integration"
 authors = [
-    { name = "Pascal Bugnion", email = "pascal@bugnion.org" }
+    { name = "Pascal Bugnion", email = "pascal@bugnion.org" },
+    { name = "Lilian Besson", email = "naereen@crans.org" }
+]
+maintainers = [
+    { name = "Pascal Bugnion", email = "pascal@bugnion.org" },
+    { name = "Lilian Besson", email = "naereen@crans.org" }
 ]
 # license = { text = "new BSD" }
-license = { file = "LICENSE.txt" }
+license-files = [ "LICENSE.txt" ]
 readme = "README.rst"
 requires-python = ">=3.7"
 keywords = ["monte carlo", "scikit-learn", "simulation"]
@@ -36,7 +41,7 @@ dependencies = [
     "setuptools",
     "wheel",
     "numpy",
-    # "cython",
+    "cython",
     # "Sphinx>=4.0.0",
     # "numpydoc>=1.1.0",
 ]
@@ -49,4 +54,4 @@ Source = "https://github.com/scikit-monaco/scikit-monaco"
 Tracker = "https://github.com/scikit-monaco/scikit-monaco/issues"
 
 [tool.setuptools]
-packages = [ "skmonaco"]
+packages = [ "skmonaco", "skmonaco.benchmarks", "skmonaco.tests" ]

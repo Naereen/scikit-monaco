@@ -9,14 +9,17 @@ from libc.stdlib cimport malloc, free
 from cython.parallel import prange, parallel
 import os
 
-cimport _core as core
+try:
+    cimport _core as core
+except:
+    cimport skmonaco._core as core
 
 ctypedef cnp.float64_t DOUBLE
 
-cdef run_integral(object f,int npts, int dim, cnp.ndarray[DOUBLE,ndim=2] pts, 
+cdef run_integral(object f,int npts, int dim, cnp.ndarray[DOUBLE,ndim=2] pts,
         double weight, object args):
     cdef :
-        double summ_double, sum2_double, first_val_double, npts_float 
+        double summ_double, sum2_double, first_val_double, npts_float
         bint ret_object
         object summ_object, sum2_object, first_val_object
 
@@ -87,8 +90,8 @@ def integrate_uniform(f,int npoints, xl, xu, args=(),rng=numpy.random,seed=None)
         raise ValueError("Integration volume is zero.")
     core.generate_points(npoints, dim, &(xl_a[0]), &(xu_a[0]), points)
     return run_integral(f,npoints,dim,points,volume,args)
-    
-def integrate_importance(f,int npoints, distribution, 
+
+def integrate_importance(f,int npoints, distribution,
         args=(), rng=numpy.random, seed=None,dist_kwargs={},weight=1.0):
     cdef :
         cnp.ndarray[DOUBLE,ndim=2] points

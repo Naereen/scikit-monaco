@@ -6,7 +6,10 @@ import numpy as np
 
 from cython.view cimport array as carray
 
-cimport _core as core
+try:
+    cimport _core as core
+except:
+    cimport skmonaco._core as core
 
 ctypedef cnp.float64_t DOUBLE
 

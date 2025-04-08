@@ -199,9 +199,9 @@ def setup_package():
                     'numpy',
                 ],
                 ext_modules=[
-                    Extension('skmonaco._core', ['skmonaco/_core.c'], include_dirs=[include_dirs], libraries=["m"]),
-                    Extension('skmonaco._mc', ['skmonaco/_mc.c'], include_dirs=[include_dirs], libraries=["m"]),
-                    Extension('skmonaco._miser', ['skmonaco/_miser.c'], include_dirs=[include_dirs], libraries=["m"]),
+                    Extension('_core', ['skmonaco/_core.c'], include_dirs=[include_dirs], libraries=["m"]),
+                    Extension('_mc', ['skmonaco/_mc.c'], include_dirs=[include_dirs], libraries=["m"]),
+                    Extension('_miser', ['skmonaco/_miser.c'], include_dirs=[include_dirs], libraries=["m"]),
                 ],
             **extra_setuptools_args)
 

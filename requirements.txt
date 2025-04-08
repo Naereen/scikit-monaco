@@ -1,5 +1,10 @@
 # Requirements file for building the documentation.
 
-Sphinx
+# setuptools[core]
+setuptools
+
 numpy
+# cython
+
+Sphinx
 numpydoc

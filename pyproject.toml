@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools>=42", "wheel", "numpy"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "scikit-monaco"
+version = "0.3.1"
+description = "Python modules for Monte Carlo integration"
+authors = [
+    { name = "Pascal Bugnion", email = "pascal@bugnion.org" }
+]
+# license = { text = "new BSD" }
+license = { file = "LICENSE.txt" }
+readme = "README.rst"
+requires-python = ">=3.7"
+keywords = ["monte carlo", "scikit-learn", "simulation"]
+classifiers = [
+    'Intended Audience :: Science/Research',
+    'Intended Audience :: Developers',
+    'Intended Audience :: Financial and Insurance Industry',
+    # 'License :: OSI Approved :: BSD License',
+    'Programming Language :: Cython',
+    'Programming Language :: Python',
+    'Topic :: Software Development',
+    'Topic :: Scientific/Engineering',
+    'Operating System :: POSIX',
+    'Operating System :: Unix',
+    'Operating System :: MacOS',
+    # 'Programming Language :: Python :: 2',
+    # 'Programming Language :: Python :: 2.7',
+    'Programming Language :: Python :: 3',
+    # 'Programming Language :: Python :: 3.3',
+    'Programming Language :: Python :: 3.12'
+]
+dependencies = [
+    "setuptools",
+    "wheel",
+    "numpy",
+    # "cython",
+    # "Sphinx>=4.0.0",
+    # "numpydoc>=1.1.0",
+]
+
+[project.urls]
+# The URLs below are used by PyPI to display the project page.
+Homepage = "https://github.com/scikit-monaco/scikit-monaco"
+Documentation = "https://scikit-monaco.readthedocs.io/"
+Source = "https://github.com/scikit-monaco/scikit-monaco"
+Tracker = "https://github.com/scikit-monaco/scikit-monaco/issues"
+
+[tool.setuptools]
+packages = [ "skmonaco"]

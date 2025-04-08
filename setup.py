@@ -2,6 +2,20 @@
 import os
 import sys
 
+# from setuptools import setup
+from setuptools.extension import Extension
+
+# TODO: Maybe we could compile the Cython extension when building the extension?
+# See https://cython.readthedocs.io/en/stable/src/userguide/source_files_and_compilation.html
+# from Cython.Build import cythonize
+
+# try:
+#     import numpy
+# except ModuleNotFoundError:
+#     from setuptools import dist
+#     dist.Distribution().fetch_build_eggs(["numpy"])
+#     import numpy
+
 DISTNAME = "scikit-monaco"
 DESCRIPTION = "Python modules for Monte Carlo integration"
 MAINTAINER = "Pascal Bugnion"
@@ -106,9 +120,13 @@ def write_readme():
 """)
         f.write(LONG_DESCRIPTION.replace(".. code:: python","::"))
 
-import skmonaco
+write_readme()
 
-VERSION = skmonaco.__version__
+try:
+    import skmonaco
+    VERSION = skmonaco.__version__
+except ImportError:
+    VERSION = "0.3.1"
 
 
 # For some commands, use setuptools.
@@ -144,6 +162,9 @@ def configuration(parent_package="",top_path=None):
     return config
 
 def setup_package():
+    import numpy
+    include_dirs = numpy.get_include()
+
     metadata = dict(
             name=DISTNAME,
             maintainer=MAINTAINER,
@@ -154,21 +175,34 @@ def setup_package():
             version=VERSION,
             long_description=LONG_DESCRIPTION,
             classifiers=[
-                'Intended Audience :: Science/Research',
-                'Intended Audience :: Developers',
-                'Intended Audience :: Financial and Insurance Industry',
-                'License :: OSI Approved :: BSD License',
-                'Programming Language :: Cython',
-                'Programming Language :: Python',
-                'Topic :: Software Development',
-                'Topic :: Scientific/Engineering',
-                'Operating System :: POSIX',
-                'Operating System :: Unix',
-                'Operating System :: MacOS',
-                'Programming Language :: Python :: 2',
-                'Programming Language :: Python :: 2.7',
-                'Programming Language :: Python :: 3',
-                'Programming Language :: Python :: 3.3'],
+                    'Intended Audience :: Science/Research',
+                    'Intended Audience :: Developers',
+                    'Intended Audience :: Financial and Insurance Industry',
+                    'License :: OSI Approved :: BSD License',
+                    'Programming Language :: Cython',
+                    'Programming Language :: Python',
+                    'Topic :: Software Development',
+                    'Topic :: Scientific/Engineering',
+                    'Operating System :: POSIX',
+                    'Operating System :: Unix',
+                    'Operating System :: MacOS',
+                    'Programming Language :: Python :: 2',
+                    'Programming Language :: Python :: 2.7',
+                    'Programming Language :: Python :: 3',
+                    'Programming Language :: Python :: 3.3',
+                    'Programming Language :: Python :: 3.12'
+                ],
+                setup_requires=[
+                    'numpy',
+                ],
+                install_requires=[
+                    'numpy',
+                ],
+                ext_modules=[
+                    Extension('skmonaco._core', ['skmonaco/_core.c'], include_dirs=[include_dirs], libraries=["m"]),
+                    Extension('skmonaco._mc', ['skmonaco/_mc.c'], include_dirs=[include_dirs], libraries=["m"]),
+                    Extension('skmonaco._miser', ['skmonaco/_miser.c'], include_dirs=[include_dirs], libraries=["m"]),
+                ],
             **extra_setuptools_args)
 
     if (len(sys.argv) >= 2 and
@@ -180,10 +214,11 @@ def setup_package():
             from distutils.core import setup
 
     else:
-        from numpy.distutils.core import setup
+        # from numpy.distutils.core import setup
+        from setuptools import setup
         metadata["configuration"] = configuration
-    setup(**metadata)
+    return setup(**metadata)
 
 if __name__ == '__main__':
-    from numpy.distutils.core import setup
+    # from numpy.distutils.core import setup
     setup_package()

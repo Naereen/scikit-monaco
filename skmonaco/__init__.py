@@ -12,7 +12,7 @@ This module provides a toolkit for Monte Carlo integration.
     integrate_from_points -- Integration of a function over specific points.
 """
 
-__version__ = "0.3-dev"
+__version__ = "0.3.1"
 
 try:
     __SKMONACO_SETUP__
@@ -21,11 +21,19 @@ except NameError:
     __SKMONACO_SETUP__ = False
 
 if not __SKMONACO_SETUP__ :
-    from .uniform import * 
-    from .importance import *
-    from .from_pts import *
-    from .miser import *
+    from .uniform import mcquad
+    from .importance import mcimport
+    from .from_pts import integrate_from_points
+    from .miser import mcmiser
 
-    from numpy.testing import Tester
-    test = Tester().test
-    bench = Tester().bench
+    try:
+        from numpy.testing import Tester
+        test = Tester().test
+        bench = Tester().bench
+    except ImportError:
+        # numpy is too recent, the Tester class is no longer available, see #17
+        # https://github.com/scikit-monaco/scikit-monaco/issues/17
+        def test():
+            raise ImportError("numpy.testing.Tester could not get imported. Cannot run tests.")
+        def bench():
+            raise ImportError("numpy.testing.Tester could not get imported. Cannot run benchmarks.")

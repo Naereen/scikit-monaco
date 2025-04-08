@@ -9,10 +9,11 @@ from libc.stdlib cimport malloc, free
 from cython.parallel import prange, parallel
 import os
 
-try:
-    cimport _core as core
-except:
-    cimport skmonaco._core as core
+# try:
+#     cimport skmonaco._core as core
+# except:
+#     cimport _core as core
+cimport skmonaco._core as core
 
 ctypedef cnp.float64_t DOUBLE
 

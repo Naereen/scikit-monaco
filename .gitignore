@@ -5,9 +5,13 @@
 *.log
 *.swp
 *.egg-info/
+.eggs/
 
 build/
 doc/build/
 skmcquad/build/
 
 skmcquad/_mc.c
+
+venv/
+*~

@@ -1,6 +1,6 @@
 BSD License
 
-Copyright (c) 2013 Pascal Bugnion.
+Copyright (c) 2013-2025 Pascal Bugnion.
 All rights reserved.
 
 

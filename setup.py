@@ -7,14 +7,7 @@ from setuptools.extension import Extension
 
 # TODO: Maybe we could compile the Cython extension when building the extension?
 # See https://cython.readthedocs.io/en/stable/src/userguide/source_files_and_compilation.html
-# from Cython.Build import cythonize
-
-# try:
-#     import numpy
-# except ModuleNotFoundError:
-#     from setuptools import dist
-#     dist.Distribution().fetch_build_eggs(["numpy"])
-#     import numpy
+from Cython.Build import cythonize
 
 DISTNAME = "scikit-monaco"
 DESCRIPTION = "Python modules for Monte Carlo integration"
@@ -163,14 +156,14 @@ def configuration(parent_package="",top_path=None):
 
 def setup_package():
     import numpy
-    include_dirs = numpy.get_include()
+    numpy_include_dir = numpy.get_include()
 
     metadata = dict(
             name=DISTNAME,
             maintainer=MAINTAINER,
             maintainer_email=MAINTAINER_EMAIL,
             description=DESCRIPTION,
-            license=LICENSE,
+            # license=LICENSE,
             url=URL,
             version=VERSION,
             long_description=LONG_DESCRIPTION,
@@ -198,11 +191,12 @@ def setup_package():
                 install_requires=[
                     'numpy',
                 ],
-                ext_modules=[
-                    Extension('_core', ['skmonaco/_core.pyx'], include_dirs=[include_dirs], libraries=["m"]),
-                    Extension('_mc', ['skmonaco/_mc.pyx'], include_dirs=[include_dirs], libraries=["m"]),
-                    Extension('_miser', ['skmonaco/_miser.pyx'], include_dirs=[include_dirs], libraries=["m"]),
-                ],
+                ext_modules=cythonize([
+                    Extension("skmonaco._core", ["skmonaco/_core.pyx"], include_dirs=[numpy_include_dir], libraries=[ "m" ]),
+                    Extension("skmonaco._mc", ["skmonaco/_mc.pyx"], include_dirs=[ numpy_include_dir, "./skmonaco/" ], libraries=[ "m" ]),
+                    Extension("skmonaco._miser", ["skmonaco/_miser.pyx"], include_dirs=[ numpy_include_dir, "./skmonaco/" ], libraries=[ "m" ]),
+                ]),
+                include_dirs=[ numpy_include_dir ],
             **extra_setuptools_args)
 
     if (len(sys.argv) >= 2 and
